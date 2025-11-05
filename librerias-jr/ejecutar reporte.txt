@@ -1,0 +1,13 @@
+public int ejecutarReporte(String archivo, Map parametro) {
+        try {
+
+            JasperReport masterReport = (JasperReport) JRLoader.loadObject(new File(archivo));
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(masterReport, parametro, con);
+            JasperViewer jviewer = new JasperViewer(jasperPrint, false);//Se lanza el Viewerde Jasper, no termina aplicación al salir
+            jviewer.setVisible(true);
+            return 1;
+        } catch (Exception j) {
+            return 0;
+        }
+    }
