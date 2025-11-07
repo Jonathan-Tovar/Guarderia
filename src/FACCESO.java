@@ -6,14 +6,13 @@ public class FACCESO extends javax.swing.JFrame {
 
     Conexion cnx = new Conexion();
     int veces = 0;
-    
-    String inf = "SELECT matricula FROM infantes ORDER BY matricula";
 
+    //String inf = "SELECT matricula FROM infantes ORDER BY matricula";
     public FACCESO() {
         initComponents();
 
         setLocationRelativeTo(this);
-        if (cnx.conectar("localhost", "guarderia", "root", "") == 0) {
+        if (cnx.conectar("localhost", "guarderia2", "root", "") == 0) {
             JOptionPane.showMessageDialog(this, "Error en la conexion");
             System.exit(0);
         }
@@ -33,7 +32,7 @@ public class FACCESO extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ACCEDER");
 
-        jLabel1.setText("CORREO");
+        jLabel1.setText("NOMBRE");
 
         jLabel2.setText("Contraseña");
 
@@ -100,16 +99,19 @@ public class FACCESO extends javax.swing.JFrame {
         String correo = txtCorreo.getText();
         String con = txtCon.getText();
 
-        String sql = "SELECT idencargado, nombree, rol FROM acceso "
-                + "WHERE correo = '" + correo + "' AND contra = '" + con + "'  AND status = 'Activo' ";
+        String sql = "SELECT idUsuario, nombreUsuario, tipoUsuario "
+                + "FROM usuarios "
+                + "WHERE nombreUsuario = '" + correo + "' "
+                + "AND `contraseña` = '" + con + "' "
+                + "AND activo = 1";
 
-        ArrayList<ArrayList<String>> Resultados = cnx.consultar(sql);
-        if (Resultados.size() > 0) {
-            String id = Resultados.get(0).get(0);
-            String nombre = Resultados.get(0).get(1);
-            String rol = Resultados.get(0).get(2);
+        ArrayList<ArrayList<String>> resultado = cnx.consultar(sql);
+        if (!resultado.isEmpty()) {
+            String id = resultado.get(0).get(0);
+            String nombre = resultado.get(0).get(1);
+            String rol = resultado.get(0).get(2);
 
-            switch (rol) {
+            switch (rol.toUpperCase()) {
                 case "Parentesco":
                     FTUTORES ftu = new FTUTORES();
                     ftu.recibirDatos(cnx, id, nombre);
@@ -121,7 +123,7 @@ public class FACCESO extends javax.swing.JFrame {
                     fta.setVisible(true);
                     break;
 
-                case "ADMIN":
+                case "ADMINISTRADOR":
                     FADMIN fad = new FADMIN();
                     fad.recibirDatos(cnx, id, nombre);
                     fad.setVisible(true);
@@ -138,8 +140,8 @@ public class FACCESO extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "DATOS INCORRECTOS");
             veces++;
-            
-            if(veces >= 3){
+
+            if (veces >= 3) {
                 JOptionPane.showMessageDialog(this, "INTECTOS AGOTADOS");
                 this.dispose();
             }

@@ -8,26 +8,36 @@ public class FADMIN extends javax.swing.JFrame {
     Conexion cnx;
     String id, nombre;
 
-    String inf = "SELECT matricula FROM infantes ORDER BY matricula";
+    //String inf = "SELECT matricula FROM infantes ORDER BY matricula";
     String infp = "SELECT matricula FROM infantes ORDER BY matricula";
     String enc = "SELECT idencargado FROM encargados ORDER BY idencargado";
+    
+     String inf = "SELECT mes "
+            + "FROM vista_asistencias_mensuales "
+            + "GROUP BY mes ";
+     
+     String todo = "SELECT * "
+             + "FROM vista_asistencias_mensuales "
+             + "GROUP BY mes";
+    
+    String idf = "SELECT idInfante FROM infantes ORDER BY idInfante ";
 
     public FADMIN() {
         initComponents();
 
         cnx = new Conexion();
 
-        if (cnx.conectar("localhost", "guarderia", "root", "") == 1) {
-            cnx.seleccionar(infp, cbPersonal);
-            cnx.seleccionar(inf, cbpadres);
-            cnx.seleccionar(enc, cbencargado);
-            
+        if (cnx.conectar("localhost", "guarderia2", "root", "") == 1) {
+            cnx.entablar(todo, Tconsultas);
+            cnx.seleccionar(inf, cbmes);
+            cnx.seleccionar(idf, cbIde);
+            ;
+
         } else {
             JOptionPane.showMessageDialog(this, "Sin conexión. La ventana se cerrará.");
             System.exit(0);
         }
 
-        
     }
 
     public void recibirDatos(Conexion cnx, String id, String nombre) {
@@ -63,14 +73,14 @@ public class FADMIN extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         Tconsultas = new javax.swing.JTable();
         jToolBar2 = new javax.swing.JToolBar();
-        cbPersonal = new javax.swing.JComboBox<>();
-        btPersonal_infan = new javax.swing.JButton();
+        cbmes = new javax.swing.JComboBox<>();
+        btConsulta1 = new javax.swing.JButton();
+        btReporte1 = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JToolBar.Separator();
-        cbpadres = new javax.swing.JComboBox<>();
-        btMostrarP_H = new javax.swing.JButton();
+        cbIde = new javax.swing.JComboBox<>();
+        btConsulta2 = new javax.swing.JButton();
+        btReporte2 = new javax.swing.JButton();
         jSeparator7 = new javax.swing.JToolBar.Separator();
-        cbencargado = new javax.swing.JComboBox<>();
-        btPermisos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FADMIN");
@@ -169,70 +179,72 @@ public class FADMIN extends javax.swing.JFrame {
 
         jToolBar2.setRollover(true);
 
-        cbPersonal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbPersonal.setMaximumSize(new java.awt.Dimension(95, 40));
-        cbPersonal.setMinimumSize(new java.awt.Dimension(95, 40));
-        cbPersonal.setPreferredSize(new java.awt.Dimension(95, 40));
-        jToolBar2.add(cbPersonal);
+        cbmes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbmes.setMaximumSize(new java.awt.Dimension(95, 40));
+        cbmes.setMinimumSize(new java.awt.Dimension(95, 40));
+        cbmes.setPreferredSize(new java.awt.Dimension(95, 40));
+        jToolBar2.add(cbmes);
 
-        btPersonal_infan.setText("REPORTE PERSONAL");
-        btPersonal_infan.setFocusable(false);
-        btPersonal_infan.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btPersonal_infan.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btPersonal_infan.addActionListener(new java.awt.event.ActionListener() {
+        btConsulta1.setText("CONSULTA1");
+        btConsulta1.setFocusable(false);
+        btConsulta1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btConsulta1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btConsulta1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPersonal_infanActionPerformed(evt);
+                btConsulta1ActionPerformed(evt);
             }
         });
-        jToolBar2.add(btPersonal_infan);
+        jToolBar2.add(btConsulta1);
+
+        btReporte1.setText("REPORTE1");
+        btReporte1.setFocusable(false);
+        btReporte1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btReporte1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btReporte1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btReporte1ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btReporte1);
         jToolBar2.add(jSeparator6);
 
-        cbpadres.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbpadres.setMaximumSize(new java.awt.Dimension(95, 40));
-        cbpadres.setMinimumSize(new java.awt.Dimension(95, 40));
-        cbpadres.setPreferredSize(new java.awt.Dimension(95, 40));
-        jToolBar2.add(cbpadres);
+        cbIde.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbIde.setMaximumSize(new java.awt.Dimension(95, 40));
+        cbIde.setMinimumSize(new java.awt.Dimension(95, 40));
+        cbIde.setPreferredSize(new java.awt.Dimension(95, 40));
+        jToolBar2.add(cbIde);
 
-        btMostrarP_H.setText("REPORTE PADRES");
-        btMostrarP_H.setFocusable(false);
-        btMostrarP_H.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btMostrarP_H.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btMostrarP_H.addActionListener(new java.awt.event.ActionListener() {
+        btConsulta2.setText("CONSULTA2");
+        btConsulta2.setFocusable(false);
+        btConsulta2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btConsulta2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btConsulta2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btMostrarP_HActionPerformed(evt);
+                btConsulta2ActionPerformed(evt);
             }
         });
-        jToolBar2.add(btMostrarP_H);
+        jToolBar2.add(btConsulta2);
+
+        btReporte2.setText("REPORTE2");
+        btReporte2.setFocusable(false);
+        btReporte2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btReporte2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btReporte2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btReporte2ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btReporte2);
         jToolBar2.add(jSeparator7);
-
-        cbencargado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbencargado.setMaximumSize(new java.awt.Dimension(95, 40));
-        cbencargado.setMinimumSize(new java.awt.Dimension(95, 40));
-        cbencargado.setPreferredSize(new java.awt.Dimension(95, 40));
-        jToolBar2.add(cbencargado);
-
-        btPermisos.setText("REPORTE PERMISOS");
-        btPermisos.setFocusable(false);
-        btPermisos.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btPermisos.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btPermisos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btPermisosActionPerformed(evt);
-            }
-        });
-        jToolBar2.add(btPermisos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 777, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,42 +254,51 @@ public class FADMIN extends javax.swing.JFrame {
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btMostrarP_HActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMostrarP_HActionPerformed
-        String reporte = System.getProperty("user.dir") + "/padres_hijos.jasper";
+    private void btReporte2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReporte2ActionPerformed
+        String reporte = System.getProperty("user.dir") + "/infantes_permisos.jasper";
         Map parametros = new HashMap();
-        parametros.put("matricula", cbpadres.getSelectedItem().toString());
+        parametros.put("idInfante", cbIde.getSelectedItem().toString());
 
         if (cnx.ejecutarReporte(reporte, parametros) == 0) {
             JOptionPane.showMessageDialog(this, "ERROR al ejecutar el reporte");
         }
-    }//GEN-LAST:event_btMostrarP_HActionPerformed
+    }//GEN-LAST:event_btReporte2ActionPerformed
 
-    private void btPersonal_infanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPersonal_infanActionPerformed
-        String reporte = System.getProperty("user.dir") + "/personal.jasper";
+    private void btReporte1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReporte1ActionPerformed
+        String reporte = System.getProperty("user.dir") + "/infante_asistencia.jasper";
         Map parametros = new HashMap();
-        parametros.put("idmatricula", cbPersonal.getSelectedItem().toString());
+        parametros.put("mes", cbmes.getSelectedItem().toString());
 
         if (cnx.ejecutarReporte(reporte, parametros) == 0) {
             JOptionPane.showMessageDialog(this, "ERROR al ejecutar el reporte");
         }
-    }//GEN-LAST:event_btPersonal_infanActionPerformed
+    }//GEN-LAST:event_btReporte1ActionPerformed
 
-    private void btPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPermisosActionPerformed
-        String reporte = System.getProperty("user.dir") + "/padre_axu_per.jasper";
-        Map parametros = new HashMap();
-        parametros.put("encargado", cbencargado.getSelectedItem().toString());
+    private void btConsulta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsulta1ActionPerformed
+        int mes = cbmes.getSelectedIndex() + 1;
+        String sql = "SELECT * "
+                + "FROM vista_asistencias_mensuales "
+                + "WHERE mes = " + mes + " ORDER BY idInfante";
 
-        if (cnx.ejecutarReporte(reporte, parametros) == 0) {
-            JOptionPane.showMessageDialog(this, "ERROR al ejecutar el reporte");
-        }
-    }//GEN-LAST:event_btPermisosActionPerformed
+        cnx.entablar(sql, Tconsultas);
+    }//GEN-LAST:event_btConsulta1ActionPerformed
+
+    private void btConsulta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsulta2ActionPerformed
+        int idInfante = cbIde.getSelectedIndex() + 1;
+        String sql = "SELECT * "
+                + "FROM vista_salidas_detalle "
+                + "WHERE idInfante = " + idInfante + " "
+                + "ORDER BY idInfante";
+
+        cnx.entablar(sql, Tconsultas);
+    }//GEN-LAST:event_btConsulta2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -319,12 +340,12 @@ public class FADMIN extends javax.swing.JFrame {
     private javax.swing.JLabel LNom;
     private javax.swing.JTable Tconsultas;
     private javax.swing.JButton btBuscar;
-    private javax.swing.JButton btMostrarP_H;
-    private javax.swing.JButton btPermisos;
-    private javax.swing.JButton btPersonal_infan;
-    private javax.swing.JComboBox<String> cbPersonal;
-    private javax.swing.JComboBox<String> cbencargado;
-    private javax.swing.JComboBox<String> cbpadres;
+    private javax.swing.JButton btConsulta1;
+    private javax.swing.JButton btConsulta2;
+    private javax.swing.JButton btReporte1;
+    private javax.swing.JButton btReporte2;
+    private javax.swing.JComboBox<String> cbIde;
+    private javax.swing.JComboBox<String> cbmes;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
