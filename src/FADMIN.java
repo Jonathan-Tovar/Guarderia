@@ -8,7 +8,6 @@ public class FADMIN extends javax.swing.JFrame {
     Conexion cnx;
     String id, nombre;
 
-    //String inf = "SELECT matricula FROM infantes ORDER BY matricula";
     String infp = "SELECT matricula FROM infantes ORDER BY matricula";
     String enc = "SELECT idencargado FROM encargados ORDER BY idencargado";
     
